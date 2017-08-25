@@ -15,7 +15,7 @@ namespace CineServidor
         public static void RegisterComponents()
         {
             var container = new UnityContainer();
-
+            container.AddNewExtension<Interception>();
             // register all your components with the container here
             // it is NOT necessary to register your controllers
 
@@ -64,7 +64,15 @@ namespace CineServidor
                         }
                         catch (Exception e)
                         {
-                            dbContextTransaction.Rollback();
+                            try
+                            {
+                                dbContextTransaction.Rollback();
+                            }
+                            catch
+                            {
+
+                            }
+                            
                             ApplicationDbContext.applicationDbContext = null;
                             throw new Exception("He hecho rollback de la transacción", e);
                         }
